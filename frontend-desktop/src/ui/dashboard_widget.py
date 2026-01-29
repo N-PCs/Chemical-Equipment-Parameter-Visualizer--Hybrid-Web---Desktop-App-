@@ -30,6 +30,27 @@ class DashboardWidget(QWidget):
         
         main_layout.addLayout(self.stats_layout)
 
+        # 1.5 Report Button
+        self.report_btn = QPushButton("Download PDF Report")
+        self.report_btn.setEnabled(False)
+        self.report_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #6b7280;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 4px;
+            }
+            QPushButton:enabled {
+                background-color: #10b981;
+            }
+            QPushButton:enabled:hover {
+                background-color: #059669;
+            }
+        """)
+        self.report_btn.clicked.connect(self.download_report)
+        main_layout.addWidget(self.report_btn)
+
         # 2. Charts Area
         charts_layout = QHBoxLayout()
         
@@ -95,7 +116,9 @@ class DashboardWidget(QWidget):
             self.update_card(self.flow_card, f"{stats['averages']['flowrate']} m³/h")
             self.update_card(self.pressure_card, f"{stats['averages']['pressure']} atm")
             self.update_card(self.temp_card, f"{stats['averages']['temperature']} °C")
+            self.update_card(self.temp_card, f"{stats['averages']['temperature']} °C")
             self.plot_charts(stats)
+            self.report_btn.setEnabled(True)
 
         # 2. Get List
         equipment = self.api_client.get_equipment_list(upload_id)
@@ -133,3 +156,25 @@ class DashboardWidget(QWidget):
             self.table.setItem(row, 2, QTableWidgetItem(str(item['flowrate'])))
             self.table.setItem(row, 3, QTableWidgetItem(str(item['pressure'])))
             self.table.setItem(row, 4, QTableWidgetItem(str(item['temperature'])))
+
+    def download_report(self):
+        if not self.current_upload_id:
+            return
+
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        
+        save_path, _ = QFileDialog.getSaveFileName(self, "Save Report", f"report_{self.current_upload_id}.pdf", "PDF Files (*.pdf)")
+        if save_path:
+            self.report_btn.setText("Downloading...")
+            self.report_btn.setEnabled(False)
+            self.repaint()
+            
+            success = self.api_client.download_report(self.current_upload_id, save_path)
+            
+            if success:
+                QMessageBox.information(self, "Success", "Report downloaded successfully!")
+            else:
+                QMessageBox.critical(self, "Error", "Failed to download report.")
+                
+            self.report_btn.setText("Download PDF Report")
+            self.report_btn.setEnabled(True)

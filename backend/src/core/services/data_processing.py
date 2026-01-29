@@ -1,6 +1,6 @@
 import pandas as pd
 from django.db.models import Count, Avg
-from .models import Equipment, FileUpload
+from core.models import Equipment, FileUpload
 
 def process_csv(file_upload_instance):
     """

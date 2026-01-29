@@ -62,6 +62,19 @@ export const getSummaryStats = async (uploadId?: number) => {
     return response.data;
 };
 
+export const downloadReport = async (uploadId: number) => {
+    const response = await api.get(`/upload/${uploadId}/report/`, {
+        responseType: 'blob',
+    });
+    // Create blob link to download
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `report_${uploadId}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+};
 
 export const setAuthToken = (token: string | null) => {
     if (token) {

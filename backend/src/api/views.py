@@ -68,3 +68,17 @@ class FileUploadViewSet(viewsets.ModelViewSet):
             return Response({"error": "No data found"}, status=status.HTTP_404_NOT_FOUND)
             
         return Response(stats)
+
+    @action(detail=True, methods=['get'])
+    def report(self, request, pk=None):
+        """
+        Generates and returns a PDF report.
+        """
+        from django.http import FileResponse
+        from core.services import generate_report
+        
+        buffer = generate_report(pk)
+        if buffer is None:
+             return Response({"error": "Report generation failed or file not found"}, status=status.HTTP_404_NOT_FOUND)
+             
+        return FileResponse(buffer, as_attachment=True, filename=f'report_{pk}.pdf')

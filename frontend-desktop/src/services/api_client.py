@@ -78,3 +78,19 @@ class APIClient:
         except requests.exceptions.RequestException as e:
              print(f"Error fetching equipment: {e}")
              return None
+
+    def download_report(self, upload_id, save_path):
+        """
+        Downloads the PDF report for a given upload_id.
+        """
+        url = f"{self.base_url}/v1/upload/{upload_id}/report/"
+        try:
+            response = requests.get(url, headers=self._get_headers(), stream=True)
+            response.raise_for_status()
+            with open(save_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            return True
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading report: {e}")
+            return False

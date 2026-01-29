@@ -1,46 +1,58 @@
 # Chemical Equipment Parameter Visualizer
 
-A hybrid Web + Desktop application for chemical equipment data visualization and analytics.
+A hybrid Web (React) and Desktop (PyQt5) application for visualizing and analyzing chemical equipment parameters from CSV data.
 
-## Structure
+## Features
+- **Data Upload**: Drag & Drop CSV upload for equipment data.
+- **Analysis**: Automatic calculation of flowrate, pressure, and temperature averages.
+- **Visualization**: Interactive Charts (Bar & Pie) using Chart.js (Web) and Matplotlib (Desktop).
+- **Authentication**: Secure Token Authentication.
+- **Reporting**: PDF generation and download.
+- **Hybrid Access**: Use via Web Browser or Native Desktop App.
 
-- **backend/**: Django REST API
-- **frontend-web/**: React application
-- **frontend-desktop/**: PyQt5 application
-- **shared/**: Shared types and utilities
+## Project Structure
+- `backend/`: Django REST Framework (API, Auth, PDF Service).
+- `frontend-web/`: Vite + React + TypeScript (Modern Dark Theme).
+- `frontend-desktop/`: PyQt5 + Matplotlib.
+- `docker-compose.yml`: Containerized setup.
 
-## Prerequisites
+## Getting Started
 
-- Python 3.8+
+### Prerequisites
+- Python 3.9+
 - Node.js 16+
 - Docker (optional)
 
-## Setup
+### Backend Setup
+```bash
+cd backend
+pip install -r requirements.txt
+pip install reportlab
+cd src
+python manage.py migrate
+python manage.py runserver
+```
+*Create a user:* `python create_user.py` (Default: admin/password123)
 
-### Backend Setup (Local)
+### Web Frontend
+```bash
+cd frontend-web
+npm install
+npm run dev
+```
+Access at: `http://localhost:5173`
 
-1. Navigate to `backend/`:
-   ```bash
-   cd backend
-   ```
-2. Create virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-3. Activate virtual environment:
-   - Windows: `venv\Scripts\activate`
-   - Mac/Linux: `source venv/bin/activate`
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Run migrations and server:
-   ```bash
-   cd src
-   python manage.py migrate
-   python manage.py runserver
-   ```
+### Desktop Frontend
+```bash
+cd frontend-desktop
+pip install -r requirements.txt
+python src/main.py
+```
 
-### Frontend Setup
+### Docker Deployment
+```bash
+docker-compose up --build
+```
 
-See `frontend-web/README.md` and `frontend-desktop/README.md`.
+## License
+MIT
