@@ -1,0 +1,4 @@
+Equipment Name, Type, Flowrate, Pressure, Temperature
+Reactor A, Reactor, 100.0, 50.0, 80.0
+Pump B, Pump, 50.0, 10.0, 25.0
+Reactor C, Reactor, 110.0, 55.0, 85.0

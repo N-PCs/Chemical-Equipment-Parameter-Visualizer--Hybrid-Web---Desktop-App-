@@ -1,0 +1,67 @@
+.upload-card {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.drop-zone {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.drop-zone:hover, .drop-zone.drag-active {
+  border-color: var(--color-accent-primary);
+  background-color: var(--color-bg-primary);
+}
+
+.drop-zone.has-file {
+  border-style: solid;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-primary);
+}
+
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.file-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.file-size {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.drop-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.or-text {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.error-message {
+  margin-top: 1rem;
+  color: var(--color-error);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.upload-actions {
+  margin-top: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
