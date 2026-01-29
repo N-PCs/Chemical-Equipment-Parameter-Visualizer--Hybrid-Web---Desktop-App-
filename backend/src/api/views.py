@@ -5,11 +5,14 @@ from core.models import Equipment, FileUpload
 from core.services import process_csv, cleanup_old_uploads, get_summary_stats
 from .serializers import EquipmentSerializer, FileUploadSerializer
 
+from rest_framework.permissions import IsAuthenticated
+
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ReadOnly viewset for listing equipment.
     Can filter by upload_id.
     """
+    permission_classes = [IsAuthenticated]
     serializer_class = EquipmentSerializer
     queryset = Equipment.objects.all()
 
@@ -26,6 +29,7 @@ class FileUploadViewSet(viewsets.ModelViewSet):
     """
     queryset = FileUpload.objects.all()
     serializer_class = FileUploadSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

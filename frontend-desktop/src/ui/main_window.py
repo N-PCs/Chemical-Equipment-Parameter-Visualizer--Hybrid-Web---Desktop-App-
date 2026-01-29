@@ -6,13 +6,13 @@ from .dashboard_widget import DashboardWidget
 from ..services.api_client import APIClient
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, api_client):
         super().__init__()
         self.setWindowTitle("Chemical Equipment Visualizer")
         self.setMinimumSize(1000, 700)
         
         # Services
-        self.api_client = APIClient()
+        self.api_client = api_client
 
         # UI Components
         self.upload_widget = UploadWidget(self.api_client)
