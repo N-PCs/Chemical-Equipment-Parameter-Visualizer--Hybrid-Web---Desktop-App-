@@ -1,0 +1,7 @@
+{
+  "name": "ChemEquip Visualizer Suite",
+  "description": "A professional-grade hybrid (Web + Desktop) analytics platform for industrial chemical equipment. Supports CSV/Excel ingestion, real-time SCADA simulation, and safety threshold monitoring.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

@@ -1,4 +1,16 @@
+# ChemEquip Visualizer - Desktop Application Dependencies
+# PyQt5 Desktop Client for Industrial Data Visualization
+
+# GUI Framework
 PyQt5>=5.15.0
+
+# Data Visualization
 matplotlib>=3.7.0
-requests>=2.31.0
+
+# Data Processing
 pandas>=2.0.0
+openpyxl>=3.1.0  # Excel file support (.xlsx, .xls)
+xlrd>=2.0.0      # Legacy Excel support (.xls)
+
+# Optional: Enhanced Plotting
+# seaborn>=0.12.0  # Uncomment for statistical visualizations
