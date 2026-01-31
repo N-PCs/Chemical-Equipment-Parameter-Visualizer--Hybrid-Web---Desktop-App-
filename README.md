@@ -80,11 +80,14 @@ pip install -r requirements.txt
 # Run migrations (if using Django models)
 python manage.py migrate
 
+# Create a superuser (REQUIRED for authentication)
+python manage.py shell -c "from django.contrib.auth.models import User; User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin123')"
+
 # Start the development server
 python manage.py runserver
 ```
 
-**API will be available at**: `http://localhost:8000`
+**API will be available at**: `http://localhost:8000/api/` (Note: Browser root `/` will show 404 as this is a headless API)
 
 ---
 
@@ -103,7 +106,7 @@ npm install
 npm run dev
 ```
 
-**Web application will be available at**: `http://localhost:5173`  
+**Web application will be available at**: `http://localhost:3000`  
 **Default Credentials**: `admin` / `admin123`
 
 **Production Build**:

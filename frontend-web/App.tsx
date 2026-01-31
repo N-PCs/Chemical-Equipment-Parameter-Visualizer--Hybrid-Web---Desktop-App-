@@ -5,23 +5,32 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { DatasetHistory, EquipmentData } from './types';
+import { DatasetHistory, EquipmentData, ThresholdSettings } from './types';
 import { equipmentService } from './api';
+import { authService } from './services/auth-service';
 import Navbar from './components/Navbar';
 import SummaryStats from './components/SummaryStats';
 import UploadSection from './components/UploadSection';
 import EquipmentTable from './components/EquipmentTable';
 import EquipmentCharts from './components/EquipmentCharts';
+import ThresholdPanel from './components/ThresholdPanel';
+import Login from './components/Login';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
   const [currentDataset, setCurrentDataset] = useState<DatasetHistory | null>(null);
   const [history, setHistory] = useState<DatasetHistory[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [thresholds, setThresholds] = useState<ThresholdSettings>({
+    maxFlowrate: 200,
+    maxPressure: 30,
+    maxTemperature: 200
+  });
 
   useEffect(() => {
-    // Initial load logic
+    if (!isAuthenticated) return;
     const loadHistory = async () => {
       try {
         const hist = await equipmentService.getHistory();
@@ -37,7 +46,7 @@ const App: React.FC = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const result = await equipmentService.uploadCsv(file);
+      const result = await equipmentService.uploadFile(file);
       setCurrentDataset(result);
       setHistory(prev => {
         // Only add if it's not already the first one (simple mock logic)
@@ -45,10 +54,21 @@ const App: React.FC = () => {
         return [result, ...prev].slice(0, 5);
       });
     } catch (err) {
-      setError("Failed to upload file. Please ensure it is a valid CSV.");
+      setError("Failed to upload file. Please ensure it is a valid CSV or Excel file.");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setIsAuthenticated(false);
+    setCurrentDataset(null);
+    setHistory([]);
   };
 
   const handleGenerateReport = async () => {
@@ -64,10 +84,15 @@ const App: React.FC = () => {
     }
   };
 
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar 
         onGenerateReport={handleGenerateReport} 
+        onLogout={handleLogout}
         canGenerate={!!currentDataset && !isGeneratingPdf} 
       />
       
@@ -98,7 +123,14 @@ const App: React.FC = () => {
             </div>
             
             <div className="lg:col-span-2">
-              <SummaryStats summary={currentDataset?.summary || null} />
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="md:col-span-3">
+                  <SummaryStats summary={currentDataset?.summary || null} />
+                </div>
+                <div className="md:col-span-1">
+                  <ThresholdPanel settings={thresholds} onChange={setThresholds} />
+                </div>
+              </div>
             </div>
           </section>
 
@@ -115,7 +147,7 @@ const App: React.FC = () => {
                   <h3 className="text-lg font-semibold text-slate-800">Detailed Equipment Parameters</h3>
                   <span className="text-sm text-slate-500">Source: {currentDataset.filename}</span>
                 </div>
-                <EquipmentTable data={currentDataset.data} />
+                <EquipmentTable data={currentDataset.data} thresholds={thresholds} />
               </section>
             </>
           ) : (
@@ -126,7 +158,7 @@ const App: React.FC = () => {
                 </svg>
               </div>
               <h2 className="text-xl font-medium text-slate-600">No Data Uploaded</h2>
-              <p className="text-slate-400 mt-2 max-w-xs">Upload a chemical equipment CSV file to see real-time analytics and visualizations.</p>
+              <p className="text-slate-400 mt-2 max-w-xs">Upload a chemical equipment CSV or Excel file to see real-time analytics and visualizations.</p>
             </section>
           )}
 

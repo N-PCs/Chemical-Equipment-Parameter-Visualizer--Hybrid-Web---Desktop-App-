@@ -1,3 +1,8 @@
+export interface ThresholdSettings {
+  maxFlowrate: number;
+  maxPressure: number;
+  maxTemperature: number;
+}
 
 /**
  * ARCHITECTURE: /shared/types/

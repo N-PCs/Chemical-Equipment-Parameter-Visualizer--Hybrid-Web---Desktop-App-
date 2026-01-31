@@ -22,14 +22,14 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onUpload, isLoading }) =>
     <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col justify-center">
       <h3 className="text-lg font-semibold text-slate-800 mb-2">Import Dataset</h3>
       <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-        Upload equipment parameter CSV files to run analytics and generate visualizations.
+        Upload equipment parameter CSV or Excel files to run analytics and generate visualizations.
       </p>
       
       <input 
         type="file" 
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept=".csv"
+        accept=".csv, .xlsx, .xls"
         className="hidden" 
       />
       
@@ -57,7 +57,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onUpload, isLoading }) =>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
             </div>
-            <span className="text-sm font-bold text-blue-600">Click to Upload CSV</span>
+            <span className="text-sm font-bold text-blue-600">Click to Upload File</span>
             <span className="text-xs text-slate-400 mt-1">or drag and drop here</span>
           </>
         )}
@@ -65,7 +65,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({ onUpload, isLoading }) =>
       
       <div className="mt-4 flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-widest px-1">
         <span>Max: 10MB</span>
-        <span>Format: CSV only</span>
+        <span>Format: CSV or Excel</span>
       </div>
     </div>
   );

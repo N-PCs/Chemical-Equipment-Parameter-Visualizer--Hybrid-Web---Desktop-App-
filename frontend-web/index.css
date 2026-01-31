@@ -1,0 +1,21 @@
+/* Base Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom UI Effects */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Animations */
+@keyframes loading {
+  0% { transform: translateX(-100%) scaleX(0.5); }
+  50% { transform: translateX(50%) scaleX(1); }
+  100% { transform: translateX(200%) scaleX(0.5); }
+}

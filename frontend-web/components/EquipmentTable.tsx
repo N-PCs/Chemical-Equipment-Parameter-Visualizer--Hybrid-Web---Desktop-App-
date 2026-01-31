@@ -1,12 +1,15 @@
 
 import React from 'react';
-import { EquipmentData } from '../types';
+import { EquipmentData, ThresholdSettings } from '../types';
 
 interface EquipmentTableProps {
   data: EquipmentData[];
+  thresholds?: ThresholdSettings;
 }
 
-const EquipmentTable: React.FC<EquipmentTableProps> = ({ data }) => {
+const EquipmentTable: React.FC<EquipmentTableProps> = ({ data, thresholds }) => {
+  const isHigh = (val: number, max?: number) => max && val > max;
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse">
@@ -21,16 +24,26 @@ const EquipmentTable: React.FC<EquipmentTableProps> = ({ data }) => {
         </thead>
         <tbody className="divide-y divide-slate-100">
           {data.map((item, index) => (
-            <tr key={index} className="hover:bg-slate-50 transition-colors">
+            <tr key={index} className={`hover:bg-slate-50 transition-colors ${
+              isHigh(item.flowrate, thresholds?.maxFlowrate) || 
+              isHigh(item.pressure, thresholds?.maxPressure) || 
+              isHigh(item.temperature, thresholds?.maxTemperature) ? 'bg-red-50/30' : ''
+            }`}>
               <td className="px-6 py-4 font-medium text-slate-800">{item.equipment_name}</td>
               <td className="px-6 py-4">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                   {item.type}
                 </span>
               </td>
-              <td className="px-6 py-4 text-right tabular-nums text-slate-600">{item.flowrate.toFixed(2)}</td>
-              <td className="px-6 py-4 text-right tabular-nums text-slate-600">{item.pressure.toFixed(2)}</td>
-              <td className="px-6 py-4 text-right tabular-nums text-slate-600 font-semibold text-blue-600">{item.temperature.toFixed(1)}</td>
+              <td className={`px-6 py-4 text-right tabular-nums ${isHigh(item.flowrate, thresholds?.maxFlowrate) ? 'text-red-600 font-bold' : 'text-slate-600'}`}>
+                {item.flowrate.toFixed(2)}
+              </td>
+              <td className={`px-6 py-4 text-right tabular-nums ${isHigh(item.pressure, thresholds?.maxPressure) ? 'text-red-600 font-bold' : 'text-slate-600'}`}>
+                {item.pressure.toFixed(2)}
+              </td>
+              <td className={`px-6 py-4 text-right tabular-nums ${isHigh(item.temperature, thresholds?.maxTemperature) ? 'text-red-600 font-bold font-semibold' : 'text-blue-600'}`}>
+                {item.temperature.toFixed(1)}
+              </td>
             </tr>
           ))}
         </tbody>
