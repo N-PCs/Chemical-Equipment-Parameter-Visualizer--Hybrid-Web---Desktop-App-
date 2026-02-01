@@ -35,8 +35,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 4a2 2 0 114 0v1a2 2 0 012 2v3a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2V4zM7 10v1a2 2 0 002 2h6a2 2 0 002-2v-1" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Industrial Suite v2.5</h2>
-          <p className="text-blue-100 text-sm mt-1">Chemical Equipment Visualizer Login</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Chemical Equipment Visualizer Login</h2>
         </div>
 
         {/* Form Area */}
