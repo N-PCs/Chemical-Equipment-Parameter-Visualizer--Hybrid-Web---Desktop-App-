@@ -16,10 +16,7 @@ openpyxl>=3.1.0  # Excel file support (.xlsx, .xls)
 reportlab>=4.0.0
 
 # Database (SQLite is included with Python, but for production PostgreSQL)
-# psycopg2-binary>=2.9.0  # Uncomment for PostgreSQL support
-
-# Security & Authentication
-# django-allauth>=0.54.0  # Uncomment for advanced auth
-
-# Development Tools (optional)
-# django-debug-toolbar>=4.0.0  # Uncomment for debugging
+# Production Support
+dj-database-url>=2.1.0
+psycopg2-binary>=2.9.0
+whitenoise>=6.5.0
