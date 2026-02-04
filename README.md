@@ -254,5 +254,8 @@ python main.py
 
 ---
 
-**Lead Software Architect Notice**: System finalized and validated for deployment.  
+**Lead Software Architect Notice**: 
+# Maintained By @N-PCs
+
+System finalized and validated for deployment.  
 *Production-grade architecture with proper separation of concerns and comprehensive dependency management.*
