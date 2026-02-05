@@ -12,20 +12,27 @@ export const equipmentService = {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${API_BASE}/upload/`, {
-      method: 'POST',
-      headers: {
-        ...authService.getAuthHeader(),
-      },
-      body: formData,
-    });
+    try {
+      const response = await fetch(`${API_BASE}/upload/`, {
+        method: 'POST',
+        headers: {
+          ...authService.getAuthHeader(),
+        },
+        body: formData,
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Upload failed');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Upload failed (Status: ${response.status})`);
+      }
+
+      return await response.json();
+    } catch (err: any) {
+      if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+        throw new Error(`Cloud connection failed. Verify API URL: ${API_BASE}`);
+      }
+      throw err;
     }
-
-    return await response.json();
   },
 
   /**

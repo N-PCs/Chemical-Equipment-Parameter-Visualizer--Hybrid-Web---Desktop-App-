@@ -53,8 +53,8 @@ const App: React.FC = () => {
         if (prev[0]?.filename === result.filename) return prev;
         return [result, ...prev].slice(0, 5);
       });
-    } catch (err) {
-      setError("Failed to upload file. Please ensure it is a valid CSV or Excel file.");
+    } catch (err: any) {
+      setError(err.message || "Failed to upload file. Please ensure it is a valid CSV or Excel file.");
     } finally {
       setIsLoading(false);
     }
