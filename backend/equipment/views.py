@@ -17,6 +17,25 @@ from reportlab.lib.units import inch
 
 from .models import Dataset
 
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([permissions.AllowAny])
+def api_root(request):
+    """
+    Landing page for /api/
+    """
+    return Response({
+        "status": "online",
+        "message": "ChemEquip Visualizer API is running",
+        "endpoints": {
+            "history": "/api/history/",
+            "upload": "/api/upload/",
+            "generate_pdf": "/api/generate-pdf/"
+        }
+    })
+
 
 class EquipmentUploadView(APIView):
     """
